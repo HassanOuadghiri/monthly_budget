@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .demo-container {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .demo-button {
+            background: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .demo-button:hover {
+            transform: translateY(-2px);
+        }
+        .features {
+            text-align: left;
+            margin: 30px 0;
+        }
+        .features li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🎯 Budget Tracker Demo</h1>
+        <p>Welcome to the Monthly Budget Tracker! This tool helps you manage your expenses and stay within your budget.</p>
+        
+        <div class="features">
+            <h3>✨ Key Features:</h3>
+            <ul>
+                <li>🎨 Beautiful, modern interface</li>
+                <li>📱 Mobile-friendly responsive design</li>
+                <li>📊 Real-time budget tracking with visual progress</li>
+                <li>💰 Easy expense management</li>
+                <li>📈 Category-wise spending analysis</li>
+                <li>🔔 Smart budget alerts</li>
+                <li>💾 Automatic data saving</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="demo-button">🚀 Start Tracking Your Budget</a>
+        
+        <div style="margin-top: 30px;">
+            <h3>🎮 Quick Demo Actions:</h3>
+            <button class="demo-button" onclick="loadDemoData()">📝 Load Sample Data</button>
+            <button class="demo-button" onclick="clearDemoData()">🗑️ Clear All Data</button>
+        </div>
+
+        <div style="margin-top: 30px; font-size: 14px; opacity: 0.8;">
+            <p>💡 Tip: Try the demo with sample data to see all features in action!</p>
+        </div>
+    </div>
+
+    <script>
+        function loadDemoData() {
+            const demoData = {
+                monthlyBudget: 2500,
+                selectedCurrency: 'USD',
+                expenses: [
+                    {
+                        id: Date.now() + 1,
+                        amount: 120.50,
+                        category: 'Food',
+                        description: 'Weekly grocery shopping',
+                        date: new Date().toISOString()
+                    },
+                    {
+                        id: Date.now() + 2,
+                        amount: 85.00,
+                        category: 'Transportation',
+                        description: 'Gas and bus pass',
+                        date: new Date(Date.now() - 86400000).toISOString()
+                    },
+                    {
+                        id: Date.now() + 3,
+                        amount: 200.00,
+                        category: 'Shopping',
+                        description: 'New winter clothes',
+                        date: new Date(Date.now() - 172800000).toISOString()
+                    },
+                    {
+                        id: Date.now() + 4,
+                        amount: 45.75,
+                        category: 'Food',
+                        description: 'Restaurant dinner',
+                        date: new Date(Date.now() - 259200000).toISOString()
+                    },
+                    {
+                        id: Date.now() + 5,
+                        amount: 35.00,
+                        category: 'Entertainment',
+                        description: 'Movie and popcorn',
+                        date: new Date(Date.now() - 345600000).toISOString()
+                    },
+                    {
+                        id: Date.now() + 6,
+                        amount: 150.20,
+                        category: 'Utilities',
+                        description: 'Electricity and water bills',
+                        date: new Date(Date.now() - 432000000).toISOString()
+                    },
+                    {
+                        id: Date.now() + 7,
+                        amount: 75.00,
+                        category: 'Healthcare',
+                        description: 'Pharmacy and vitamins',
+                        date: new Date(Date.now() - 518400000).toISOString()
+                    },
+                    {
+                        id: Date.now() + 8,
+                        amount: 95.00,
+                        category: 'Housing',
+                        description: 'Home maintenance supplies',
+                        date: new Date(Date.now() - 604800000).toISOString()
+                    }
+                ],
+                categories: [
+                    'Food', 'Transportation', 'Housing', 'Utilities',
+                    'Entertainment', 'Healthcare', 'Shopping', 'Other'
+                ]
+            };
+
+            localStorage.setItem('budgetTrackerData', JSON.stringify(demoData));
+            alert('✅ Demo data loaded! Click "Start Tracking" to see the budget tracker in action.');
+        }
+
+        function clearDemoData() {
+            localStorage.removeItem('budgetTrackerData');
+            alert('🗑️ All data cleared! You can start fresh.');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Budget Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-wallet"></i> Monthly Budget Tracker</h1>
+            <p>Track your expenses and stay within your budget</p>
+        </header>
+
+        <!-- Budget Setup Section -->
+        <section class="budget-setup">
+            <div class="card">
+                <h2><i class="fas fa-dollar-sign"></i> Set Monthly Budget</h2>
+                <div class="currency-selector">
+                    <label for="currencySelect">Currency:</label>
+                    <select id="currencySelect">
+                        <option value="USD">🇺🇸 USD - US Dollar</option>
+                        <option value="EUR">🇪🇺 EUR - Euro</option>
+                        <option value="PLN">🇵🇱 PLN - Polish Złoty</option>
+                        <option value="MAD">🇲🇦 MAD - Moroccan Dirham</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <input type="number" id="budgetAmount" placeholder="Enter your monthly budget" step="0.01" min="0">
+                    <button id="setBudgetBtn" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Set Budget
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Budget Overview -->
+        <section class="budget-overview">
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="overview-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3>Monthly Budget</h3>
+                        <p class="amount" id="totalBudget">$0.00</p>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3>Total Spent</h3>
+                        <p class="amount" id="totalSpent">$0.00</p>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3>Remaining</h3>
+                        <p class="amount" id="remaining">$0.00</p>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3>Budget Used</h3>
+                        <p class="percentage" id="budgetUsed">0%</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-label">
+                    <span>Budget Progress</span>
+                    <span id="progressText">0% used</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Expense Section -->
+        <section class="add-expense">
+            <div class="card">
+                <h2><i class="fas fa-plus-circle"></i> Add New Expense</h2>
+                <form id="expenseForm" class="expense-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expenseAmount">Amount (<span id="currencySymbol">$</span>)</label>
+                            <input type="number" id="expenseAmount" placeholder="0.00" step="0.01" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expenseCategory">Category</label>
+                            <select id="expenseCategory" required>
+                                <option value="">Select category</option>
+                                <option value="Food">🍽️ Food</option>
+                                <option value="Transportation">🚗 Transportation</option>
+                                <option value="Housing">🏠 Housing</option>
+                                <option value="Utilities">⚡ Utilities</option>
+                                <option value="Entertainment">🎬 Entertainment</option>
+                                <option value="Healthcare">🏥 Healthcare</option>
+                                <option value="Shopping">🛍️ Shopping</option>
+                                <option value="Other">📝 Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="expenseDescription">Description (optional)</label>
+                        <input type="text" id="expenseDescription" placeholder="What was this expense for?">
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Add Expense
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Expenses List -->
+        <section class="expenses-section">
+            <div class="card">
+                <div class="section-header">
+                    <h2><i class="fas fa-list"></i> Recent Expenses</h2>
+                    <div class="section-controls">
+                        <button id="clearAllBtn" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Clear All
+                        </button>
+                    </div>
+                </div>
+                <div class="expenses-list" id="expensesList">
+                    <div class="no-expenses">
+                        <i class="fas fa-inbox"></i>
+                        <p>No expenses recorded yet</p>
+                        <small>Add your first expense above to get started</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Breakdown -->
+        <section class="category-breakdown">
+            <div class="card">
+                <h2><i class="fas fa-chart-pie"></i> Spending by Category</h2>
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+                <div class="chart-legend" id="chartLegend">
+                    <div class="no-data">
+                        <i class="fas fa-chart-pie"></i>
+                        <p>No spending data available</p>
+                        <small>Add some expenses to see category breakdown</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Budget Tracker. Track your expenses, achieve your goals!</p>
+        </footer>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <h3>Confirm Action</h3>
+            <p id="confirmMessage">Are you sure you want to perform this action?</p>
+            <div class="modal-actions">
+                <button id="confirmYes" class="btn btn-danger">Yes</button>
+                <button id="confirmNo" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
